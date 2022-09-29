@@ -13,10 +13,11 @@ def login_view(request):
     form = LoginForm(request.POST or None)
 
     msg = None
-
+    print("1. login_view")
     if request.method == "POST":
-
+        print("2. request.method")
         if form.is_valid():
+            print("3. form.is_valid() = TRUE")
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
@@ -26,6 +27,7 @@ def login_view(request):
             else:
                 msg = 'Invalid credentials'
         else:
+            print("4. form.is_valid() = FALSE")
             msg = 'Error validating the form'
 
     return render(request, "accounts/login.html", {"form": form, "msg": msg, "GITHUB_AUTH": GITHUB_AUTH})
@@ -34,10 +36,12 @@ def login_view(request):
 def register_user(request):
     msg = None
     success = False
-
+    print("1. register_user")
     if request.method == "POST":
+        print("2. request.method")
         form = SignUpForm(request.POST)
         if form.is_valid():
+            print("3. form.is_valid() = TRUE")
             form.save()
             username = form.cleaned_data.get("username")
             raw_password = form.cleaned_data.get("password1")
@@ -49,6 +53,7 @@ def register_user(request):
             # return redirect("/login/")
 
         else:
+            print("4. form.is_valid() = FALSE")
             msg = 'Form is not valid'
     else:
         form = SignUpForm()
